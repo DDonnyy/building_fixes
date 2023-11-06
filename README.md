@@ -1,7 +1,7 @@
 This is a mini-utility for locating and removing building points from the ITMO IDU database, as well as transferring city-services from them to neighboring points.
 
 The config.example.json file describes the configuration file:
-{
+
     // City name
     "city": "updated-city-name",
     
@@ -17,4 +17,3 @@ The config.example.json file describes the configuration file:
     
     // If True, building points will not be deleted, and services will not be transferred
     "dry_run": false
-}
