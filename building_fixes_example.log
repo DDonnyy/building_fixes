@@ -1,0 +1,521 @@
+2023-11-06 14:17:41,483 INFO Reading Оренбург's services file
+2023-11-06 14:17:42,037 INFO Done!
+
+2023-11-06 14:17:42,037 INFO Reading Оренбург's building file
+2023-11-06 14:17:51,613 INFO Done!
+
+2023-11-06 14:17:51,710 INFO Searching for building-points neighbors
+2023-11-06 14:17:51,762 INFO Done!
+
+2023-11-06 14:17:51,773 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719055
+physical_object_id    1907036
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,773 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719206
+physical_object_id    1907271
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,773 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719209
+physical_object_id    1907274
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719210
+physical_object_id    1907275
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719213
+physical_object_id    1907278
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719215
+physical_object_id    1907280
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719207
+physical_object_id    1907272
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719208
+physical_object_id    1907273
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719211
+physical_object_id    1907276
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,774 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719212
+physical_object_id    1907277
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1719214
+physical_object_id    1907279
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598902
+physical_object_id    1726376
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598829
+physical_object_id    1725759
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598681
+physical_object_id    1725599
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598682
+physical_object_id    1725600
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598683
+physical_object_id    1725601
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,775 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598684
+physical_object_id    1725602
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598685
+physical_object_id    1725603
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598686
+physical_object_id    1725604
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598687
+physical_object_id    1725605
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598688
+physical_object_id    1725606
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598689
+physical_object_id    1725607
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,777 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598690
+physical_object_id    1725608
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598691
+physical_object_id    1725609
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598692
+physical_object_id    1725610
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598693
+physical_object_id    1725611
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598694
+physical_object_id    1725612
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598695
+physical_object_id    1725613
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598669
+physical_object_id    1725587
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598670
+physical_object_id    1725588
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,778 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598671
+physical_object_id    1725589
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598672
+physical_object_id    1725590
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598673
+physical_object_id    1725591
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598674
+physical_object_id    1725592
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598675
+physical_object_id    1725593
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598676
+physical_object_id    1725594
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598677
+physical_object_id    1725595
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598678
+physical_object_id    1725596
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598679
+physical_object_id    1725597
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,779 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598680
+physical_object_id    1725598
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598721
+physical_object_id    1725639
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598726
+physical_object_id    1725644
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598727
+physical_object_id    1725645
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598729
+physical_object_id    1725647
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598732
+physical_object_id    1725650
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598733
+physical_object_id    1725651
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598735
+physical_object_id    1725653
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598736
+physical_object_id    1725654
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,780 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598737
+physical_object_id    1725655
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598738
+physical_object_id    1725656
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598741
+physical_object_id    1725659
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598747
+physical_object_id    1725665
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598749
+physical_object_id    1725667
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598750
+physical_object_id    1725668
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598768
+physical_object_id    1725686
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598812
+physical_object_id    1725730
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,781 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598817
+physical_object_id    1725735
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598824
+physical_object_id    1725742
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598831
+physical_object_id    1725761
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598833
+physical_object_id    1725763
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598851
+physical_object_id    1725783
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598853
+physical_object_id    1725873
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598856
+physical_object_id    1725892
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598858
+physical_object_id    1725894
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,782 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598860
+physical_object_id    1725896
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598872
+physical_object_id    1725908
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598874
+physical_object_id    1725910
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598878
+physical_object_id    1725921
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598881
+physical_object_id    1725924
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598882
+physical_object_id    1725925
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598883
+physical_object_id    1725926
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598890
+physical_object_id    1726191
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598897
+physical_object_id    1726371
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,783 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598898
+physical_object_id    1726372
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598899
+physical_object_id    1726373
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598900
+physical_object_id    1726374
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598901
+physical_object_id    1726375
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598904
+physical_object_id    1726378
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598914
+physical_object_id    1726388
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598915
+physical_object_id    1726398
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598916
+physical_object_id    1726399
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,784 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598923
+physical_object_id    1726406
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,785 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598668
+physical_object_id    1725586
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,785 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598718
+physical_object_id    1725636
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,785 WARNING
+Next building-point don't have neighbors in distance = 30:
+id                    1598837
+physical_object_id    1725767
+address                  None
+------------------------------------------------------------
+2023-11-06 14:17:51,944 WARNING In the city of "Оренбург", neighbors were found at a distance of 30 for 217 out of 302 building points.
+2023-11-06 14:17:51,944 INFO The config specifies a dry run, so the data will not be saved.
