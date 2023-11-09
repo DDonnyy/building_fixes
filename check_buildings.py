@@ -5,11 +5,12 @@ from datetime import datetime
 import geopandas as gpd
 import pandas as pd
 import sqlalchemy as sa
-from tqdm import tqdm
 from sklearn.neighbors import NearestNeighbors
 
+import mapping
 
-def save_cities_buildings_to_file(city_name: str, sql_alchemy_engine: sa.Engine):
+
+def download_buildings(city_name: str, sql_alchemy_engine: sa.engine, save: bool):
     logging.info(f"Downloading {city_name}'s building to file")
     with sql_alchemy_engine.connect() as conn:
         city_id: int = conn.execute(
@@ -17,11 +18,13 @@ def save_cities_buildings_to_file(city_name: str, sql_alchemy_engine: sa.Engine)
         ).scalar_one()
         sql_ = f"SELECT p.geometry, b.* FROM buildings b JOIN physical_objects p ON b.physical_object_id = p.id WHERE p.city_id = {city_id}"
         gdf = gpd.read_postgis(sql_, conn, geom_col="geometry")
-        gdf.to_file(f"buildings_{city_name}.geojson")
+        if save:
+            gdf.to_file(f"buildings_{city_name}.geojson")
     logging.info("Done!\n")
+    return gdf
 
 
-def save_cities_service_to_file(city_name: str, sql_alchemy_engine: sa.Engine):
+def download_services(city_name: str, sql_alchemy_engine: sa.engine, save: bool):
     logging.info(f"Downloading {city_name}'s services to file")
     with sql_alchemy_engine.connect() as conn:
         city_id: int = conn.execute(
@@ -29,8 +32,10 @@ def save_cities_service_to_file(city_name: str, sql_alchemy_engine: sa.Engine):
         ).scalar_one()
         sql_ = f"SELECT p.geometry, b.* FROM functional_objects b JOIN physical_objects p ON b.physical_object_id = p.id WHERE p.city_id = {city_id}"
         gdf = gpd.read_postgis(sql_, conn, geom_col="geometry")
-        gdf.to_file(f"services_{city_name}.geojson")
+        if save:
+            gdf.to_file(f"services_{city_name}.geojson")
     logging.info("Done!\n")
+    return gdf
 
 
 def search_neighbor_from_point_buffer(
@@ -51,7 +56,7 @@ def search_neighbor_from_point_buffer(
     return points_data
 
 
-def upload_services_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
+def upload_services_db(sql_alchemy_engine: sa.engine, data: gpd.GeoDataFrame):
     logging.info(f"Updating services in DB")
     with sql_alchemy_engine.connect() as connection:
         for ind, row in data.iterrows():
@@ -59,18 +64,17 @@ def upload_services_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
             new_physical_object_id = row["physical_object_id"]
 
             stmt = (
-                sa.update("functional_objects")
-                .where("id" == id_value)
+                sa.update(mapping.FunctionalObject)
+                .where(mapping.FunctionalObject.id == id_value)
                 .values(
                     physical_object_id=new_physical_object_id, updated_at=datetime.now()
                 )
             )
             connection.execute(stmt)
-            connection.commit()
     logging.info("Done!\n")
 
 
-def remove_building_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
+def remove_building_db(sql_alchemy_engine: sa.engine, data: gpd.GeoDataFrame):
     logging.info(f"Removing redundant building-points in DB")
     with sql_alchemy_engine.connect() as connection:
         for _, row in data.iterrows():
@@ -80,12 +84,20 @@ def remove_building_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
             connection.execute(stmt)
             stmt = f"DELETE FROM physical_objects WHERE id = {physical_object_id}"
             connection.execute(stmt)
-            connection.commit()
     logging.info("Done!\n")
 
 
 def main():
-    log_file_name = f"building_fixes.log"
+    with open(os.path.join(os.getcwd(), "config.json"), encoding="UTF-8") as f:
+        config_imputation = json.load(f)
+        city = config_imputation["city"]
+        sql_connection = config_imputation["sqlConnection"]
+        distance_limit = config_imputation["distance_limit"]
+        dry_run = config_imputation["dry_run"]
+        from_file = config_imputation["from_file"]
+        save_data = config_imputation["save_data"]
+
+    log_file_name = f"building_fixes_{city}.log"
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
@@ -97,46 +109,58 @@ def main():
         ],
     )
 
-    with open(os.path.join(os.getcwd(), "config.json"), encoding="UTF-8") as f:
-        config_imputation = json.load(f)
-        city = config_imputation["city"]
-        sql_connection = config_imputation["sqlConnection"]
-        distance_limit = config_imputation["distance_limit"]
-        dry_run = config_imputation["dry_run"]
-        from_file = config_imputation["from_file"]
-
     engine = sa.create_engine(sql_connection)
+    gdf_services: gpd.GeoDataFrame
+    gdf_buildings: gpd.GeoDataFrame
     if not from_file:
-        save_cities_buildings_to_file(city, engine)
-        save_cities_service_to_file(city, engine)
+        gdf_buildings = download_buildings(city, engine, save_data)
+        gdf_services = download_services(city, engine, save_data)
+    else:
+        logging.info(f"Reading {city}'s services file")
+        gdf_services = gpd.read_file(f"services_{city}.geojson")
+        logging.info(f"Done!\n")
 
-    logging.info(f"Reading {city}'s services file")
-    gdf_services: gpd.GeoDataFrame = gpd.read_file(f"services_{city}.geojson")
-    logging.info(f"Done!\n")
-
-    logging.info(f"Reading {city}'s building file")
-    gdf_buildings: gpd.GeoDataFrame = gpd.read_file(f"buildings_{city}.geojson")
-    logging.info(f"Done!\n")
+        logging.info(f"Reading {city}'s building file")
+        gdf_buildings = gpd.read_file(f"buildings_{city}.geojson")
+        logging.info(f"Done!\n")
 
     # Выбрать строки, у которых геометрия типа Точка и полигон
     gdf_geom_points = gdf_buildings[gdf_buildings.geometry.type == "Point"].copy()
     gdf_geom_polygons = gdf_buildings[gdf_buildings.geometry.type == "Polygon"].copy()
-
+    if gdf_geom_points.shape[0] == 0:
+        logging.info(f"No buildings-points in {city} city, exiting.")
+        exit()
     gdf_geom_points = search_neighbor_from_point_buffer(
         gdf_geom_points, gdf_geom_polygons, distance_limit
     )  # добавлен столбец с ближайшим соседом не точкой
 
-    gdf_geom_points.loc[gdf_geom_points["closest_building_physical_id"].isnull()].apply(
-        lambda x: logging.warning(
-            f"\nNext building-point don't have neighbors in distance = {distance_limit}: "
-            f"\n{x[:3].to_string()}\n{'':-^60}"
-        ),
-        axis=1,
-    )
-    points_amount = gdf_geom_points.shape[0]
+    if (
+        gdf_geom_points.loc[
+            gdf_geom_points["closest_building_physical_id"].isnull()
+        ].shape[0]
+        > 0
+    ):
+        gdf_: gpd.GeoDataFrame = (
+            gdf_geom_points.loc[
+                gdf_geom_points["closest_building_physical_id"].isnull()
+            ]
+            .filter(["id", "physical_object_id"])
+            .reset_index(drop=True)
+        )
+        gdf_.to_json(f"no_neighbors_{city}.json", orient="records")
+        logging.warning(
+            f"There are {gdf_.shape[0]} building-point(s) in {city} city with no neighbor in distance = {distance_limit}, check "
+            f"<no_neighbors_{city}.json> file"
+        )
 
     # Точки, которые надо удалить из бд
     gdf_geom_points = gdf_geom_points.dropna(subset=["closest_building_physical_id"])
+    points_amount = gdf_geom_points.shape[0]
+    if points_amount == 0:
+        logging.info(
+            f"No buildings-points in {city} city to remove, services will not be transferred, exiting."
+        )
+        exit()
     # отделяем сервисы, привязанные к зданиям точкам
     list_buildings_points = gdf_geom_points["physical_object_id"].tolist()
     gdf_services = gdf_services.query("physical_object_id in @list_buildings_points")
@@ -166,7 +190,7 @@ def main():
         upload_services_db(engine, gdf_services)
         remove_building_db(engine, gdf_geom_points)
     else:
-        logging.info("The config specifies a dry run, so the data will not be saved.")
+        logging.info("The config specifies a dry run, data will not be saved.")
 
 
 #
@@ -221,7 +245,7 @@ def search_neighbors_from_point(
     return points_data
 
 
-def save_city_to_file(city_name: str, sql_alchemy_engine: sa.Engine):
+def save_city_to_file(city_name: str, sql_alchemy_engine: sa.engine):
     with sql_alchemy_engine.connect() as conn:
         city_id: int = conn.execute(
             sa.text("SELECT id FROM cities WHERE name =:name").params(name=city_name)

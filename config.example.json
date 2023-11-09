@@ -2,6 +2,7 @@
   "city": "Город",
   "from_file": false,
   "sqlConnection": "postgresql://user:password@host:port/db_name?application_name=buildings_fix",
+  "save_data": false,
   "distance_limit": 30,
   "dry_run": false
 }
