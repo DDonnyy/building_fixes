@@ -130,8 +130,11 @@ def main():
         logging.info(f"Done reading buildings!\n")
 
     # Выбрать строки, у которых геометрия типа Точка и полигон
-    gdf_geom_points = gdf_buildings[gdf_buildings.geometry.type == "Point"].copy()
-    gdf_geom_polygons = gdf_buildings[gdf_buildings.geometry.type == "Polygon"].copy()
+    gdf_geom_points = gdf_buildings[(gdf_buildings.geometry.type == "Point")].copy()
+    gdf_geom_polygons = gdf_buildings[
+        (gdf_buildings.geometry.type == "Polygon")
+        | (gdf_buildings.geometry.type == "MULTIPOLYGON")
+    ].copy()
     if gdf_geom_points.shape[0] == 0:
         logging.info(f"No buildings-points in {city} city, exiting.")
         exit()
@@ -203,9 +206,8 @@ def main():
         else:
             logging.info("The config specifies a dry run, data will not be saved.")
     else:
-        logging.info(
-            f'No services to transfer and no building-points to delete.'
-        )
+        logging.info(f"No services to transfer and no building-points to delete.")
+
 
 #
 # Различные способы найти дистанцию в геометрии
