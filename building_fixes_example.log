@@ -1,0 +1,13 @@
+2023-11-13 17:14:10,685 INFO Downloading Оренбург's building
+2023-11-13 17:14:18,829 INFO Done downloading building!
+
+2023-11-13 17:14:18,829 INFO Downloading Оренбург's services
+2023-11-13 17:14:19,333 INFO Done downloading services!
+
+2023-11-13 17:14:19,351 INFO There are 302 buildings-points in Оренбург city.
+2023-11-13 17:14:19,453 INFO Searching for building-points neighbors
+2023-11-13 17:14:19,502 INFO Done!
+
+2023-11-13 17:14:19,515 WARNING There are 85 building-point(s) in Оренбург city with no neighbor in distance = 30, check <no_neighbors_Оренбург.json> file
+2023-11-13 17:14:19,684 WARNING In the city of "Оренбург", neighbors were found at a distance of 30 for 217 services out of 302 building points.
+2023-11-13 17:14:19,684 INFO The config specifies a dry run, data will not be saved.

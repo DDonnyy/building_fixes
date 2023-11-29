@@ -1,12 +1,9 @@
-/test2.geojson
-/all_points_buildings_Оренбург.geojson
-/buildings_Оренбург.geojson
-/map.html
-/proj.qgz
-/services_Оренбург.geojson
-/test.geojson
-/venv/
-/Orenburg/
-/load_services.py
-/config.json
+*
 
+!.gitignore
+!check_buildings.py
+!building_fixes_example.log
+!mapping.py
+!README.md
+!config.example.json
+!data
