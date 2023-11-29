@@ -1,9 +1,4 @@
-*
-
-!.gitignore
-!check_buildings.py
+*.log
+*.json
 !building_fixes_example.log
-!mapping.py
-!README.md
 !config.example.json
-!data
