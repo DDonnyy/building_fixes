@@ -10,8 +10,8 @@ typically arising from unsuccessful file uploads
 
 The [config.example.json](DuplicatedServices/config.example.json) file describes the configuration file:
 - `sqlConnection` - PostgreSQL DSN connection string
-- `dry-run` - If true, building points will not be deleted, and services will not be transferred
-- `service_ids` - List of services ids to search in duplicated data
+- `dry-run` - If true, found services will not be deleted.
+- `service_ids` - List of services ids to search duplicated data in 
 
 ## Building points
 This is a mini-utility for locating and removing building points from database,
