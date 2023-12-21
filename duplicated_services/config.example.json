@@ -1,0 +1,5 @@
+{
+  "sqlConnection": "postgresql://user:password@host:port/db_name?application_name=duplicateServicesFinder",
+  "dry_run": false,
+  "service_ids": [1,2,5,6,70]
+}

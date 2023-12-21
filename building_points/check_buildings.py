@@ -1,44 +1,15 @@
 import json
 import logging
 import os
-from datetime import datetime
+
 import geopandas as gpd
 import pandas as pd
-import sqlalchemy as sa
 from sklearn.neighbors import NearestNeighbors
 
-import mapping
+from db_utility import dbTools
 
 
-def download_buildings(city_name: str, sql_alchemy_engine: sa.Engine, save: bool):
-    logging.info(f"Downloading {city_name}'s building")
-    with sql_alchemy_engine.connect() as conn:
-        city_id: int = conn.execute(
-            sa.text("SELECT id FROM cities WHERE name =:name").params(name=city_name)
-        ).scalar_one()
-        sql_ = f"SELECT p.geometry, b.* FROM buildings b JOIN physical_objects p ON b.physical_object_id = p.id WHERE p.city_id = {city_id}"
-        gdf = gpd.read_postgis(sql_, conn, geom_col="geometry")
-        if save:
-            gdf.to_file(f"data/buildings_{city_name}.geojson")
-    logging.info("Done downloading building!\n")
-    return gdf
-
-
-def download_services(city_name: str, sql_alchemy_engine: sa.Engine, save: bool):
-    logging.info(f"Downloading {city_name}'s services")
-    with sql_alchemy_engine.connect() as conn:
-        city_id: int = conn.execute(
-            sa.text("SELECT id FROM cities WHERE name =:name").params(name=city_name)
-        ).scalar_one()
-        sql_ = f"SELECT p.geometry, b.* FROM functional_objects b JOIN physical_objects p ON b.physical_object_id = p.id WHERE p.city_id = {city_id}"
-        gdf = gpd.read_postgis(sql_, conn, geom_col="geometry")
-        if save:
-            gdf.to_file(f"data/services_{city_name}.geojson")
-    logging.info("Done downloading services!\n")
-    return gdf
-
-
-def search_neighbor_from_point_buffer(
+def search_nearest_neighbor(
     points_data: gpd.GeoDataFrame, search_in_data: gpd.GeoDataFrame, radius
 ) -> gpd.GeoDataFrame:
     search_in_data = search_in_data.to_crs("EPSG:3857")
@@ -54,42 +25,6 @@ def search_neighbor_from_point_buffer(
     points_data["closest_building_physical_id"] = join["physical_object_id_right"]
     logging.info("Done searching neighbors!\n")
     return points_data
-
-
-def upload_services_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
-    logging.info(f"Updating services in DB")
-    with sql_alchemy_engine.connect() as connection:
-        for ind, row in data.iterrows():
-            id_value = row["id"]
-            new_physical_object_id = row["physical_object_id"]
-
-            stmt = (
-                sa.update(mapping.FunctionalObject)
-                .where(mapping.FunctionalObject.id == id_value)
-                .values(
-                    physical_object_id=new_physical_object_id, updated_at=datetime.now()
-                )
-            )
-            connection.execute(stmt)
-        connection.commit()
-    logging.info("Done updating!\n")
-
-
-def remove_building_db(sql_alchemy_engine: sa.Engine, data: gpd.GeoDataFrame):
-    logging.info(f"Removing redundant building-points in DB")
-    with sql_alchemy_engine.connect() as connection:
-        for _, row in data.iterrows():
-            building_id = row["id"]
-            physical_object_id = row["physical_object_id"]
-            stmt = sa.delete(mapping.Building).where(mapping.Building.id == building_id)
-            connection.execute(stmt)
-
-            stmt = sa.delete(mapping.PhysicalObject).where(
-                mapping.PhysicalObject.id == physical_object_id
-            )
-            connection.execute(stmt)
-        connection.commit()
-    logging.info("Done removing!\n")
 
 
 def main():
@@ -114,12 +49,12 @@ def main():
         ],
     )
 
-    engine = sa.create_engine(sql_connection)
+    db = dbTools.DBworker(sql_connection)
     gdf_services: gpd.GeoDataFrame
     gdf_buildings: gpd.GeoDataFrame
     if not from_file:
-        gdf_buildings = download_buildings(city, engine, save_data)
-        gdf_services = download_services(city, engine, save_data)
+        gdf_buildings = db.download_buildings(city,save_data)
+        gdf_services = db.download_services(city,save_data)
     else:
         logging.info(f"Reading {city}'s services file")
         gdf_services = gpd.read_file(f"data/services_{city}.geojson")
@@ -132,7 +67,7 @@ def main():
     # Выбрать строки, у которых геометрия типа Точка и полигон
     gdf_geom_points = gdf_buildings[(gdf_buildings.geometry.type == "Point")].copy()
     gdf_geom_polygons = gdf_buildings[
-        (gdf_buildings.geometry.type in ("Polygon", "MultiPolygon"))
+        (gdf_buildings.geometry.type.isin(["Polygon", "MultiPolygon"]))
     ].copy()
     if gdf_geom_points.shape[0] == 0:
         logging.info(f"No buildings-points in {city} city, exiting.")
@@ -141,7 +76,7 @@ def main():
         logging.info(
             f"There are {gdf_geom_points.shape[0]} buildings-point(s) in {city} city."
         )
-    gdf_geom_points = search_neighbor_from_point_buffer(
+    gdf_geom_points = search_nearest_neighbor(
         gdf_geom_points, gdf_geom_polygons, distance_limit
     )  # добавлен столбец с ближайшим соседом не точкой
 
@@ -200,8 +135,8 @@ def main():
             f'In the city of "{city}", neighbors were found at a distance of {distance_limit} for {points_amount_to_change} services out of {points_amount} building points.'
         )
         if not dry_run:
-            upload_services_db(engine, gdf_services)
-            remove_building_db(engine, gdf_geom_points)
+            db.upload_services(gdf_services)
+            db.remove_building(gdf_geom_points)
         else:
             logging.info("The config specifies a dry run, data will not be saved.")
     else:
@@ -259,12 +194,3 @@ def search_neighbors_from_point(
 
     return points_data
 
-
-def save_city_to_file(city_name: str, sql_alchemy_engine: sa.Engine):
-    with sql_alchemy_engine.connect() as conn:
-        city_id: int = conn.execute(
-            sa.text("SELECT id FROM cities WHERE name =:name").params(name=city_name)
-        ).scalar_one()
-        sql_ = f"SELECT geometry FROM cities WHERE id = {city_id}"
-        gdf = gpd.read_postgis(sql_, conn, geom_col="geometry")
-        gdf.to_file(f"{city_name}.geojson")
