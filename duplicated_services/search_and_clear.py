@@ -4,17 +4,16 @@ import os
 
 import pandas as pd
 
-from DButility import dbTools
+from db_utility import dbTools
 
 
 def main():
-    with open(os.path.join(os.getcwd(), "config.json"), encoding="UTF-8") as f:
+    with open(os.path.join(os.path.dirname(__file__), "config.json"), encoding="UTF-8") as f:
         config_imputation = json.load(f)
         sql_connection = config_imputation["sqlConnection"]
         dry_run = config_imputation["dry_run"]
         service_ids = config_imputation["service_ids"]
-
-    log_file_name = f"search_and_clear.log"
+    log_file_name = "search_and_clear.log"
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
@@ -32,7 +31,7 @@ def main():
 
     for service_id in service_ids:
         df = db.get_buildings_with_same_service(service_id)
-        service_name = {df["city_service_type"][0]}
+        service_name = df["city_service_type"][0]
         grouped_df = df.groupby("building_id")
 
         logging.info(

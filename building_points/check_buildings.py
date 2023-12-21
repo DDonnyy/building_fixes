@@ -6,7 +6,7 @@ import geopandas as gpd
 import pandas as pd
 from sklearn.neighbors import NearestNeighbors
 
-from DButility import dbTools
+from db_utility import dbTools
 
 
 def search_nearest_neighbor(

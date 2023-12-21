@@ -1,10 +1,11 @@
 import logging
+import typing
 from datetime import datetime
 import geopandas as gpd
 import sqlalchemy as sa
 import pandas as pd
 
-from DButility import mapping
+from db_utility import mapping
 
 
 class DBworker:
@@ -14,11 +15,11 @@ class DBworker:
     ):
         logging.info(f"Initializing DBworker with SQL connection {sql_connection}")
         self.engine = sa.create_engine(sql_connection)
-        logging.info(f"Successfully connected!")
+
 
     def refresh_materialized_view(self, name: str):
         logging.info(f"Refreshing materialized view {name}")
-        with self.engine.connect() as conn:
+        with self.engine.begin() as conn:
             conn.execute(sa.text(f"REFRESH MATERIALIZED VIEW {name}"))
         logging.info("Done refreshing!")
 
@@ -29,10 +30,10 @@ class DBworker:
         with self.engine.connect() as conn:
             table = mapping.t_all_services
             stmt = sa.select(
-                table.c.service_name, table.c.building_id, table.c.city_service_type
+                table.c.service_name, table.c.building_id, table.c.city_service_type, table.c.functional_object_id
             ).where(
                 table.c.building_id.in_(
-                    sa.select(sa.distinct(table.c.building_id))
+                    sa.select(table.c.building_id.distinct())
                     .where(table.c.city_service_type_id == service_id)
                     .group_by(table.c.building_id)
                     .having(sa.func.count("*") > 1)
@@ -43,7 +44,7 @@ class DBworker:
             logging.info("Done fetching!")
         return df
 
-    def remove_services(self, fuctional_object_ids: set):
+    def remove_services(self, fuctional_object_ids: typing.Iterable[int]):
         logging.info(f"Removing the found services.")
         with self.engine.connect() as conn:
             for obj_id in fuctional_object_ids:
